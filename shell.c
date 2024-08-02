@@ -38,7 +38,7 @@ int main(void)
         {
             args[i] = strtok(NULL, " ");
             if (args[i] == NULL)
-                break;
+            break;
         }
 
         if (args[0] == NULL)
