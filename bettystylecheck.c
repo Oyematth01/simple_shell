@@ -1,4 +1,3 @@
-/* betty.c */
 #include <stdio.h>
 
 /**
