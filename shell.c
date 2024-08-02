@@ -1,5 +1,15 @@
 #include "shell.h"
 
+/**
+ * main - Entry point of the shell
+ *
+ * Description: This function provides a simple shell interface that can
+ * handle built-in commands like `cd`, `help`, and `exit`. It reads input
+ * from the user, tokenizes it, and executes the appropriate commands. The
+ * shell runs in an infinite loop until the `exit` command is given.
+ *
+ * Return: Always 0 (Success)
+ */
 int main(void)
 {
     char *line = NULL;
@@ -29,6 +39,11 @@ int main(void)
             args[i] = strtok(NULL, " ");
             if (args[i] == NULL)
                 break;
+        }
+
+        if (args[0] == NULL)
+        {
+            continue; /* Empty command, prompt again */
         }
 
         if (strcmp(args[0], "cd") == 0)

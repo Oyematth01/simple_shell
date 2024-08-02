@@ -1,68 +1,31 @@
 #include "shell.h"
 
-void change_directory(char *path)
-{
-    if (chdir(path) != 0)
-    {
-        perror("chdir");
-    }
-}
-
 /**
- * main - Entry point of the shell handling cd built-in command
- * Return: Always 0
+ * execute_background - executes a command in the background
+ * @args: array of arguments
+ *
+ * Description: This function forks a new process to execute a given command
+ * in the background. The child process is detached from the terminal and 
+ * executes the command using execvp. If the fork fails, an error message is
+ * printed.
  */
-int main(void)
+void execute_background(char **args)
 {
-    char *line = NULL;
-    char *args[64];
-    size_t len = 0;
-    ssize_t nread;
-    pid_t pid;
-    int status;
+    pid_t pid = fork();
 
-    while (1)
+    if (pid == 0)
     {
-        printf("$ ");
-        nread = getline(&line, &len, stdin);
-        if (nread == -1)
-        {
-            free(line);
-            perror("getline");
-            exit(EXIT_FAILURE);
-        }
-
-        line[nread - 1] = '\0'; /* Remove newline character */
-        args[0] = strtok(line, " ");
-        for (int i = 1; i < 64; i++)
-        {
-            args[i] = strtok(NULL, " ");
-            if (args[i] == NULL)
-                break;
-        }
-
-        if (strcmp(args[0], "cd") == 0)
-        {
-            change_directory(args[1]);
-            continue;
-        }
-
-        pid = fork();
-        if (pid == 0)
-        {
-            execvp(args[0], args);
-            perror("execvp");
-            exit(EXIT_FAILURE);
-        }
-        else if (pid < 0)
-        {
-            perror("fork");
-        }
-        else
-        {
-            wait(&status);
-        }
+        setsid();
+        execvp(args[0], args);
+        perror("execvp");
+        exit(EXIT_FAILURE);
     }
-    free(line);
-    return (0);
+    else if (pid < 0)
+    {
+        perror("fork");
+    }
+    else
+    {
+        printf("Process running in background with PID: %d\n", pid);
+    }
 }

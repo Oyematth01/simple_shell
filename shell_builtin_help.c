@@ -1,5 +1,11 @@
 #include "shell.h"
 
+/**
+ * print_help - Prints the help message for the shell
+ *
+ * Description: This function prints out a help message detailing
+ * the built-in commands supported by the shell.
+ */
 void print_help(void)
 {
     printf("Shell Help:\n");
@@ -12,7 +18,13 @@ void print_help(void)
 
 /**
  * main - Entry point of the shell handling help built-in command
- * Return: Always 0
+ *
+ * Description: This function provides a simple shell interface that can handle
+ * the built-in `help` command. It reads input from the user, tokenizes it, and
+ * executes the appropriate commands. The shell runs in an infinite loop until
+ * terminated.
+ *
+ * Return: Always 0 (Success)
  */
 int main(void)
 {
@@ -41,6 +53,11 @@ int main(void)
             args[i] = strtok(NULL, " ");
             if (args[i] == NULL)
                 break;
+        }
+
+        if (args[0] == NULL)
+        {
+            continue; /* Empty command, prompt again */
         }
 
         if (strcmp(args[0], "help") == 0)

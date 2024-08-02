@@ -1,5 +1,12 @@
 #include "shell.h"
 
+/**
+ * handle_signal - handles the SIGINT signal (Ctrl+C)
+ * @sig: signal number
+ *
+ * Description: This function handles the SIGINT signal by printing
+ * a newline and the shell prompt (`$ `) when the signal is received.
+ */
 void handle_signal(int sig)
 {
     if (sig == SIGINT)
@@ -11,7 +18,13 @@ void handle_signal(int sig)
 
 /**
  * main - Entry point of the shell handling signals
- * Return: Always 0
+ *
+ * Description: This function provides a simple shell interface
+ * that handles the SIGINT signal to interrupt commands. It reads
+ * input from the user, tokenizes it, and executes the command
+ * using execvp. The shell runs in an infinite loop until terminated.
+ *
+ * Return: Always 0 (Success)
  */
 int main(void)
 {
@@ -42,6 +55,11 @@ int main(void)
             args[i] = strtok(NULL, " ");
             if (args[i] == NULL)
                 break;
+        }
+
+        if (args[0] == NULL)
+        {
+            continue; /* Empty command, prompt again */
         }
 
         pid = fork();

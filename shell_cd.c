@@ -3,6 +3,10 @@
 /**
  * change_directory - changes the current working directory
  * @args: array of arguments
+ *
+ * Description: This function changes the current working directory
+ * to the directory specified in the args array. If no directory
+ * is specified, it prints an error message.
  */
 void change_directory(char **args)
 {

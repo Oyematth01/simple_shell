@@ -2,6 +2,9 @@
 
 /**
  * print_env - prints the environment variables
+ *
+ * Description: This function iterates through the environment variables
+ * and prints each one to the standard output.
  */
 void print_env(void)
 {
@@ -17,7 +20,13 @@ void print_env(void)
 
 /**
  * main - Entry point of the shell handling env built-in command
- * Return: Always 0
+ *
+ * Description: This function provides a simple shell interface that can handle
+ * the built-in `env` command. It reads input from the user, tokenizes it, and
+ * executes the appropriate commands. The shell runs in an infinite loop until
+ * terminated.
+ *
+ * Return: Always 0 (Success)
  */
 int main(void)
 {
@@ -46,6 +55,11 @@ int main(void)
             args[i] = strtok(NULL, " ");
             if (args[i] == NULL)
                 break;
+        }
+
+        if (args[0] == NULL)
+        {
+            continue; /* Empty command, prompt again */
         }
 
         if (strcmp(args[0], "env") == 0)

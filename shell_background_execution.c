@@ -3,6 +3,11 @@
 /**
  * execute_background - executes a command in the background
  * @args: array of arguments
+ *
+ * Description: This function forks a new process to execute a given command
+ * in the background. The child process is detached from the terminal and 
+ * executes the command using execvp. If the fork fails, an error message is
+ * printed.
  */
 void execute_background(char **args)
 {
