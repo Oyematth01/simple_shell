@@ -23,14 +23,3 @@ Run the shell:
 sh
 Copy code
 ./hsh
-
-Authors
-See AUTHORS file for a list of contributors.
-
-ruby
-Copy code
-
-### AUTHORS
-**Filename:** `AUTHORS`
-```markdown
-Matthew Oyelami
