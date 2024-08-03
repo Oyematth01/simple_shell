@@ -17,7 +17,6 @@ char **split_line(char *line);
 void execute_background(char **args);
 void handle_signal(int signal);
 void print_env(void);
-void exit_shell(void);
 void print_help(void);
 void exit_shell(char **args)
 #endif /* SHELL_H */
