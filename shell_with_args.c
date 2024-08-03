@@ -12,6 +12,7 @@ int main(void)
     ssize_t nread;
     pid_t pid;
     int status;
+    int i;
 
     while (1)
     {
@@ -24,7 +25,6 @@ int main(void)
             exit(EXIT_FAILURE);
         }
 
-        int i;
         line[nread - 1] = '\0'; /* Remove newline character */
         args[0] = strtok(line, " ");
         for (i = 1; i < 64; i++)
