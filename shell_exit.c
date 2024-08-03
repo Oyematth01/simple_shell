@@ -3,7 +3,7 @@
 /**
  * exit_shell - exits the shell
  */
-void exit_shell(char **args)
+void exit_shell(void)
 {
     exit(0);
 }
