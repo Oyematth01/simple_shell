@@ -4,13 +4,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <sys/wait.h>
 #include <string.h>
-#include <errno.h>
+#include <sys/wait.h>
+#include <signal.h>
 
-#define PROMPT "#cisfun$ "
-
-void display_prompt();
-void execute_command(char *command);
+/* Function prototypes */
+void execute_command(char **args);
+void handle_signal(int sig);
+void change_directory(char *path);
+void print_help(void);
 
 #endif /* SHELL_H */
