@@ -106,6 +106,7 @@ char **split_line(char *line)
  */
 void execute_command(char **args)
 {
+	pid_t pid, wpid;
 	int status;
 
 	pid = fork();
