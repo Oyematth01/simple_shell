@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 /* Function prototypes */
 void execute_command(char **args);
@@ -106,7 +107,7 @@ char **split_line(char *line)
  */
 void execute_command(char **args)
 {
-	pid_t pid, wpid;
+	pid_t pid;
 	int status;
 
 	pid = fork();
@@ -128,7 +129,7 @@ void execute_command(char **args)
 	{
 		/* Parent process */
 		do {
-			wpid = waitpid(pid, &status, WUNTRACED);
+			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 }
