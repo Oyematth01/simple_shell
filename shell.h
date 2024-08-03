@@ -12,7 +12,7 @@
 /* Function prototypes */
 void execute_command(char **args);
 void handle_signal(int sig);
-void change_directory(char *path);
+void change_directory(char **args);
 void print_help(void);
 
 #endif /* SHELL_H */
