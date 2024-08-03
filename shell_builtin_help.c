@@ -45,10 +45,11 @@ int main(void)
             perror("getline");
             exit(EXIT_FAILURE);
         }
-
+        
+        int i;
         line[nread - 1] = '\0'; /* Remove newline character */
         args[0] = strtok(line, " ");
-        for (int i = 1; i < 64; i++)
+        for (i = 1; i < 64; i++)
         {
             args[i] = strtok(NULL, " ");
             if (args[i] == NULL)

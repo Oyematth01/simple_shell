@@ -7,6 +7,7 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <fcntl.h>
 
 /* Function prototypes */
 void execute_command(char **args);
