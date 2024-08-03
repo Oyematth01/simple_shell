@@ -4,11 +4,14 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <signal.h>
 
 /* Function prototypes */
 void execute_command(char **args);
 char *read_line(void);
 char **split_line(char *line);
+void execute_background(char **args);
+void handle_signal(int signal);
 
 /**
  * main - Entry point of the shell
@@ -20,6 +23,8 @@ int main(void)
 	char *line;
 	char **args;
 	int status = 1;
+
+	signal(SIGINT, handle_signal);
 
 	do {
 		printf("> ");
@@ -132,4 +137,14 @@ void execute_command(char **args)
 			waitpid(pid, &status, WUNTRACED);
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
+}
+
+/**
+ * handle_signal - Handles the SIGINT signal (Ctrl+C)
+ * @signal: The signal number
+ */
+void handle_signal(int signal)
+{
+	(void)signal;
+	printf("\n");
 }

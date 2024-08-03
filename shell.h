@@ -14,5 +14,8 @@ void execute_command(char **args);
 void handle_signal(int sig);
 void change_directory(char **args);
 void print_help(void);
+char *read_line(void);
+char **split_line(char *line);
+void execute_background(char **args);
 
 #endif /* SHELL_H */
