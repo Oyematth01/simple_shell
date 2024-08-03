@@ -7,12 +7,9 @@
  */
 void exit_shell(char **args)
 {
-	if (args[1] != NULL)
-	{
-		exit(atoi(args[1]));
-	}
-	else
-	{
-		exit(0);
-	}
+    if (args[1] != NULL) {
+        exit(atoi(args[1]));
+    } else {
+        exit(0);
+    }
 }

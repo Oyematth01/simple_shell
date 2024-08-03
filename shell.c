@@ -11,7 +11,6 @@ void execute_command(char **args);
 char *read_line(void);
 char **split_line(char *line);
 void execute_background(char **args);
-void handle_signal(int signal);
 
 /**
  * main - Entry point of the shell
@@ -20,35 +19,36 @@ void handle_signal(int signal);
  */
 int main(void)
 {
-	char *line;
-	char **args;
-	int status = 1;
+    char *line;
+    char **args;
+    int status = 1;
 
-	signal(SIGINT, handle_signal);
+    signal(SIGINT, handle_signal);
 
-	do {
-		printf("> ");
-		line = read_line();
-		args = split_line(line);
+    do {
+        printf("> ");
+        line = read_line();
+        args = split_line(line);
 
-		if (args[0] == NULL)
-		{
-			/* Empty command, do nothing */
-		}
-		else if (strcmp(args[0], "cd") == 0)
-		{
-			change_directory(args);
-		}
-		else
-		{
-			execute_command(args);
-		}
+        if (args[0] == NULL) {
+            /* Empty command, do nothing */
+        } else if (strcmp(args[0], "cd") == 0) {
+            change_directory(args);
+        } else if (strcmp(args[0], "exit") == 0) {
+            exit_shell(args);
+        } else if (strcmp(args[0], "env") == 0) {
+            print_env();
+        } else if (strcmp(args[0], "help") == 0) {
+            print_help();
+        } else {
+            execute_command(args);
+        }
 
-		free(line);
-		free(args);
-	} while (status);
+        free(line);
+        free(args);
+    } while (status);
 
-	return (0);
+    return (0);
 }
 
 /**
@@ -58,11 +58,11 @@ int main(void)
  */
 char *read_line(void)
 {
-	char *line = NULL;
-	size_t bufsize = 0;
+    char *line = NULL;
+    size_t bufsize = 0;
 
-	getline(&line, &bufsize, stdin);
-	return (line);
+    getline(&line, &bufsize, stdin);
+    return (line);
 }
 
 /**
@@ -73,37 +73,33 @@ char *read_line(void)
  */
 char **split_line(char *line)
 {
-	int bufsize = 64, position = 0;
-	char **tokens = malloc(bufsize * sizeof(char *));
-	char *token;
+    int bufsize = 64, position = 0;
+    char **tokens = malloc(bufsize * sizeof(char *));
+    char *token;
 
-	if (!tokens)
-	{
-		fprintf(stderr, "Allocation error\n");
-		exit(EXIT_FAILURE);
-	}
+    if (!tokens) {
+        fprintf(stderr, "Allocation error\n");
+        exit(EXIT_FAILURE);
+    }
 
-	token = strtok(line, " \t\r\n\a");
-	while (token != NULL)
-	{
-		tokens[position] = token;
-		position++;
+    token = strtok(line, " \t\r\n\a");
+    while (token != NULL) {
+        tokens[position] = token;
+        position++;
 
-		if (position >= bufsize)
-		{
-			bufsize += 64;
-			tokens = realloc(tokens, bufsize * sizeof(char *));
-			if (!tokens)
-			{
-				fprintf(stderr, "Allocation error\n");
-				exit(EXIT_FAILURE);
-			}
-		}
+        if (position >= bufsize) {
+            bufsize += 64;
+            tokens = realloc(tokens, bufsize * sizeof(char *));
+            if (!tokens) {
+                fprintf(stderr, "Allocation error\n");
+                exit(EXIT_FAILURE);
+            }
+        }
 
-		token = strtok(NULL, " \t\r\n\a");
-	}
-	tokens[position] = NULL;
-	return (tokens);
+        token = strtok(NULL, " \t\r\n\a");
+    }
+    tokens[position] = NULL;
+    return (tokens);
 }
 
 /**
@@ -112,31 +108,25 @@ char **split_line(char *line)
  */
 void execute_command(char **args)
 {
-	pid_t pid;
-	int status;
+    pid_t pid;
+    int status;
 
-	pid = fork();
-	if (pid == 0)
-	{
-		/* Child process */
-		if (execvp(args[0], args) == -1)
-		{
-			perror("execvp");
-		}
-		exit(EXIT_FAILURE);
-	}
-	else if (pid < 0)
-	{
-		/* Error forking */
-		perror("fork");
-	}
-	else
-	{
-		/* Parent process */
-		do {
-			waitpid(pid, &status, WUNTRACED);
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-	}
+    pid = fork();
+    if (pid == 0) {
+        /* Child process */
+        if (execvp(args[0], args) == -1) {
+            perror("execvp");
+        }
+        exit(EXIT_FAILURE);
+    } else if (pid < 0) {
+        /* Error forking */
+        perror("fork");
+    } else {
+        /* Parent process */
+        do {
+            waitpid(pid, &status, WUNTRACED);
+        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+    }
 }
 
 /**
@@ -145,6 +135,6 @@ void execute_command(char **args)
  */
 void handle_signal(int signal)
 {
-	(void)signal;
-	printf("\n");
+    (void)signal;
+    printf("\n");
 }

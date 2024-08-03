@@ -8,6 +8,6 @@
  */
 void handle_signal(int signal)
 {
-	(void)signal;
-	printf("\n");
+    (void)signal;
+    printf("\n");
 }
