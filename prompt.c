@@ -1,6 +1,10 @@
 #include "shell.h"
 
-void display_prompt() {
+/**
+ * display_prompt - Displays the shell prompt
+ */
+void display_prompt(void)
+{
     printf(PROMPT);
     fflush(stdout);
 }
